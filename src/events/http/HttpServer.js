@@ -49,15 +49,15 @@ export default class HttpServer {
       },
       state: enforceSecureCookies
         ? {
-            isHttpOnly: true,
-            isSameSite: false,
-            isSecure: true,
-          }
+          isHttpOnly: true,
+          isSameSite: false,
+          isSecure: true,
+        }
         : {
-            isHttpOnly: false,
-            isSameSite: false,
-            isSecure: false,
-          },
+          isHttpOnly: false,
+          isSameSite: false,
+          isSecure: false,
+        },
     }
 
     // HTTPS support
@@ -263,7 +263,7 @@ export default class HttpServer {
     if (typeof http === 'string') {
       ;[method, path] = http.split(' ')
     } else {
-      ;({ method, path } = http)
+      ; ({ method, path } = http)
     }
 
     method = method.toUpperCase()
@@ -315,13 +315,13 @@ export default class HttpServer {
 
     const state = this._options.disableCookieValidation
       ? {
-          failAction: 'ignore',
-          parse: false,
-        }
+        failAction: 'ignore',
+        parse: false,
+      }
       : {
-          failAction: 'error',
-          parse: true,
-        }
+        failAction: 'error',
+        parse: true,
+      }
 
     const hapiOptions = {
       auth: authStrategyName,
@@ -367,10 +367,10 @@ export default class HttpServer {
 
       // Payload processing
       const encoding = detectEncoding(request)
-
-      request.payload = request.payload && request.payload.toString(encoding)
+      if (encoding !== 'binary') {
+        request.payload = request.payload && request.payload.toString(encoding)
+      }
       request.rawPayload = request.payload
-
       // Incomming request message
       this._printBlankLine()
       serverlessLog(`${method} ${request.path} (λ: ${functionKey})`)
